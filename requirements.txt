@@ -1,0 +1,24 @@
+# requirements.txt - Зависимости для Telegram бота курсов
+
+# Django
+Django==4.2.7
+asgiref==3.7.2
+
+# Telegram Bot (фиксированная версия для совместимости)
+python-telegram-bot==20.8
+
+# Работа с изображениями
+# Pillow==10.1.0
+
+# Переменные окружения
+python-decouple==3.8
+
+# HTTP requests
+requests==2.31.0
+
+# Дополнительные утилиты
+pytz==2023.3
+
+# Базы данных (опционально для продакшена)
+# psycopg2-binary==2.9.9  # для PostgreSQL
+# mysqlclient==2.2.0      # для MySQL
