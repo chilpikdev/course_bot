@@ -38,9 +38,9 @@ def handle_buy_course(bot: BotManager, update: dict):
         # Проверяем доступность курса
         if not course.is_available:
             ctx.edit_message(
-                "❌ К сожалению, этот курс больше недоступен.",
+                "❌ Ókinishke oray, bul kurs endi qoljetimli emes.",
                 KeyboardBuilder.inline_keyboard([[
-                    {'text': "◀️ К списку курсов", 'callback_data': "back_to_courses"}
+                    {'text': "◀️ Kurslar dizimine", 'callback_data': "back_to_courses"}
                 ]])
             )
             return
@@ -56,19 +56,19 @@ def handle_buy_course(bot: BotManager, update: dict):
         if existing_payment:
             if existing_payment.status == 'approved':
                 ctx.edit_message(
-                    f"✅ Вы уже приобрели курс \"{course.name}\".\n\n"
-                    f"Ссылка на группу: {course.group_link}",
+                    f"✅ Siz \"{course.name}\" kursın satıp alıp bolǵansız.\n\n"
+                    f"Gruppaǵa silteme: {course.group_link}",
                     KeyboardBuilder.inline_keyboard([[
-                        {'text': "◀️ К списку курсов", 'callback_data': "back_to_courses"}
+                        {'text': "◀️ Kurslar dizimine", 'callback_data': "back_to_courses"}
                     ]])
                 )
             else:
                 ctx.edit_message(
-                    f"⏳ У вас уже есть заявка на покупку курса \"{course.name}\".\n"
-                    f"Статус: {existing_payment.get_status_display()}\n\n"
-                    f"Дождитесь проверки администратором.",
+                    f"⏳ Sizde \"{course.name}\" kursın satıp alıw ushın arza bar.\n"
+                    f"Statusı: {existing_payment.get_status_display()}\n\n"
+                    f"Administratordıń tekseriwin kútiń.",
                     KeyboardBuilder.inline_keyboard([[
-                        {'text': "◀️ К списку курсов", 'callback_data': "back_to_courses"}
+                        {'text': "◀️ Kurslar dizimine", 'callback_data': "back_to_courses"}
                     ]])
                 )
             return
@@ -78,10 +78,10 @@ def handle_buy_course(bot: BotManager, update: dict):
         
         if not payment_methods:
             ctx.edit_message(
-                "❌ К сожалению, сейчас нет доступных способов оплаты.\n"
-                "Обратитесь в поддержку.",
+                "❌ Ókinishke oray, házir tólemniń qoljetimli usılları joq.\n"
+                "Qollap-quwatlaw xızmetine múrájat etiń.",
                 KeyboardBuilder.inline_keyboard([[
-                    {'text': "◀️ Назад", 'callback_data': f"course_{course_id}"}
+                    {'text': "◀️ Artqa", 'callback_data': f"course_{course_id}"}
                 ]])
             )
             return
@@ -94,9 +94,9 @@ def handle_buy_course(bot: BotManager, update: dict):
             return
 
         # Формируем сообщение с выбором способа оплаты
-        message = f"💳 **Покупка курса: {course.name}**\n\n"
-        message += f"💰 Стоимость: **{course.price} руб**\n\n"
-        message += "Выберите способ оплаты:"
+        message = f"💳 <b>Kurs satıp alıw: {course.name}</b>\n\n"
+        message += f"💰 Bahası: <b>{course.price} sum</b>\n\n"
+        message += "Tólem usılın tańlań:"
         
         # Кнопки способов оплаты
         buttons = []
@@ -107,7 +107,7 @@ def handle_buy_course(bot: BotManager, update: dict):
             }])
         
         buttons.append([{
-            'text': "❌ Отменить",
+            'text': "❌ Biykar etiw",
             'callback_data': f"course_{course_id}"
         }])
         
@@ -119,7 +119,7 @@ def handle_buy_course(bot: BotManager, update: dict):
         
     except Exception as e:
         logger.error(f"Error in buy course: {e}")
-        ctx.reply("Произошла ошибка при оформлении покупки.")
+        ctx.reply("Satıp alıwdı rásmiylestiriwde qátelik júz berdi.")
 
 def handle_payment_method_selection(bot: BotManager, update: dict):
     """Обработчик выбора способа оплаты"""
@@ -135,19 +135,19 @@ def handle_payment_method_selection(bot: BotManager, update: dict):
         payment_method = PaymentMethod.objects.get(id=method_id)
         
         # Формируем сообщение с реквизитами
-        message = f"💳 **Оплата курса: {course.name}**\n\n"
-        message += f"💰 Сумма к оплате: **{course.price} руб**\n\n"
-        message += f"📋 **Реквизиты для оплаты:**\n\n"
+        message = f"💳 <b>Kurs tólemi: {course.name}</b>\n\n"
+        message += f"💰 Tólem ushın summa: <b>{course.price} sum</b>\n\n"
+        message += f"📋 <b>Tólem ushın rekvizitler:</b>\n\n"
         message += payment_method.get_payment_info()
-        message += f"\n\n⚠️ **Важно:**\n"
-        message += f"• Переведите точно **{course.price} руб**\n"
-        message += f"• После оплаты пришлите скриншот чека\n"
-        message += f"• Администратор проверит платеж и отправит ссылку на группу\n\n"
-        message += f"📸 Отправьте скриншот чека или PDF документ:"
+        message += f"\n\n⚠️ <b>Áhmiyetli:</b>\n"
+        message += f"• Anıq <b>{course.price} sum</b> ótkeriwiz kerek\n"
+        message += f"• Tólemnen keyin chektiń skrinshotın jiberiń\n"
+        message += f"• Administrator tólemdi tekseredi hám gruppa siltemesin jiberedi\n\n"
+        message += f"📸 Chektiń skrinshotın yamasa PDF hújjetin jiberiń:"
         
         buttons = [
-            [{'text': "❌ Отменить покупку", 'callback_data': "cancel_payment"}],
-            [{'text': "◀️ Назад", 'callback_data': f"course_{course_id}"}]
+            [{'text': "❌ Satıp alıwdı biykarlaw", 'callback_data': "cancel_payment"}],
+            [{'text': "◀️ Artqa", 'callback_data': f"course_{course_id}"}]
         ]
         
         keyboard = KeyboardBuilder.inline_keyboard(buttons)
@@ -159,7 +159,7 @@ def handle_payment_method_selection(bot: BotManager, update: dict):
         
     except Exception as e:
         logger.error(f"Error in payment method selection: {e}")
-        ctx.reply("Произошла ошибка при выборе способа оплаты.")
+        ctx.reply("Tólem usılın tańlawda qátelik júz berdi.")
 
 def handle_photo_receipt(bot: BotManager, update: dict):
     """Обработчик получения фото чека"""
@@ -174,7 +174,7 @@ def handle_photo_receipt(bot: BotManager, update: dict):
         method_id = ctx.user_data.get('payment_method_id')
         
         if not course_id or not method_id:
-            ctx.reply("❌ Ошибка: данные о покупке потеряны. Начните заново.")
+            ctx.reply("❌ Qátelik: satıp alıw haqqında maǵlıwmatlar joǵalǵan. Qaytadan baslań.")
             return
         
         course = Course.objects.get(id=course_id)
@@ -184,7 +184,7 @@ def handle_photo_receipt(bot: BotManager, update: dict):
         # Получаем файл с наибольшим разрешением
         photos = ctx.message.get('photo', [])
         if not photos:
-            ctx.reply("❌ Фото не найдено. Попробуйте еще раз.")
+            ctx.reply("❌ Foto tabılmadı. Qaytadan urınıp kóriń.")
             return
         
         # Берем фото с наибольшим разрешением
@@ -194,7 +194,7 @@ def handle_photo_receipt(bot: BotManager, update: dict):
         # Скачиваем файл
         file_content = bot.download_file(file_id)
         if not file_content:
-            ctx.reply("❌ Не удалось скачать фото. Попробуйте еще раз.")
+            ctx.reply("❌ Fotanı júklep alıw múmkin bolmadı. Qaytadan urınıp kóriń.")
             return
         
         # Создаем платеж
@@ -209,31 +209,31 @@ def handle_photo_receipt(bot: BotManager, update: dict):
             
             # Подтверждение пользователю
             success_message = (
-                f"✅ **Чек получен!**\n\n"
-                f"📚 Курс: {course.name}\n"
-                f"💰 Сумма: {course.price} руб\n"
-                f"💳 Способ оплаты: {payment_method.name}\n\n"
-                f"⏳ Ваш платеж отправлен на проверку администратору.\n"
-                f"Обычно проверка занимает до 2 часов.\n\n"
-                f"После подтверждения вы получите ссылку на группу курса."
+                f"✅ <b>Chek qabıllandı!</b>\n\n"
+                f"📚 Kurs: {course.name}\n"
+                f"💰 Summa: {course.price} sum\n"
+                f"💳 Tólem usılı: {payment_method.name}\n\n"
+                f"⏳ Siziń tólemińiz administratorǵa tekseriw ushın jiberildi.\n"
+                f"Ádette tekseriw 2 saatqa shekem waqıt aladı.\n\n"
+                f"Tastıyıqlanǵannan keyin siz kurs gruppasına silteme alasız."
             )
             
             keyboard = KeyboardBuilder.inline_keyboard([[
-                {'text': "🏠 Главное меню", 'callback_data': "back_to_menu"}
+                {'text': "🏠 Bas menyu", 'callback_data': "back_to_menu"}
             ]])
             
-            ctx.reply(success_message, keyboard, parse_mode='Markdown')
+            ctx.reply(success_message, keyboard, parse_mode='HTML')
             ctx.set_state(BotStates.MAIN_MENU)
             
             # Очищаем данные
             ctx.user_data.pop('buying_course_id', None)
             ctx.user_data.pop('payment_method_id', None)
         else:
-            ctx.reply("❌ Ошибка при сохранении платежа. Попробуйте еще раз.")
+            ctx.reply("❌ Tólemdi saqlawda qátelik júz berdi. Qaytadan urınıp kóriń.")
         
     except Exception as e:
         logger.error(f"Error processing photo receipt: {e}")
-        ctx.reply("Произошла ошибка при обработке чека.")
+        ctx.reply("Chekti qayta islewde qátelik júz berdi.")
 
 def handle_document_receipt(bot: BotManager, update: dict):
     """Обработчик получения документа чека"""
@@ -248,7 +248,7 @@ def handle_document_receipt(bot: BotManager, update: dict):
         method_id = ctx.user_data.get('payment_method_id')
         
         if not course_id or not method_id:
-            ctx.reply("❌ Ошибка: данные о покупке потеряны. Начните заново.")
+            ctx.reply("❌ Qátelik: satıp alıw haqqında maǵlıwmatlar joǵalǵan. Qaytadan baslań.")
             return
         
         course = Course.objects.get(id=course_id)
@@ -258,7 +258,7 @@ def handle_document_receipt(bot: BotManager, update: dict):
         # Получаем документ
         document = ctx.message.get('document')
         if not document:
-            ctx.reply("❌ Документ не найден. Попробуйте еще раз.")
+            ctx.reply("❌ Hújjet tabılmadı. Qaytadan urınıp kóriń.")
             return
         
         # Проверяем тип файла
@@ -268,13 +268,13 @@ def handle_document_receipt(bot: BotManager, update: dict):
         
         # Ограничиваем размер файла (10 МБ)
         if file_size > 10 * 1024 * 1024:
-            ctx.reply("❌ Файл слишком большой. Максимум 10 МБ.")
+            ctx.reply("❌ Fayl júdá úlken. Maksimum 10 MB.")
             return
         
         # Проверяем формат
         allowed_types = ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg']
         if mime_type not in allowed_types:
-            ctx.reply("❌ Неподдерживаемый формат. Используйте PDF, JPG или PNG.")
+            ctx.reply("❌ Qollap-quwatlanbaytuǵın format. PDF, JPG yamasa PNG formatlarınan paydalanıń.")
             return
         
         file_id = document['file_id']
@@ -282,7 +282,7 @@ def handle_document_receipt(bot: BotManager, update: dict):
         # Скачиваем файл
         file_content = bot.download_file(file_id)
         if not file_content:
-            ctx.reply("❌ Не удалось скачать файл. Попробуйте еще раз.")
+            ctx.reply("❌ Fayldı júklep alıw múmkin bolmadı. Qaytadan urınıp kóriń.")
             return
         
         # Создаем платеж
@@ -297,43 +297,43 @@ def handle_document_receipt(bot: BotManager, update: dict):
             
             # Подтверждение пользователю
             success_message = (
-                f"✅ **Документ получен!**\n\n"
-                f"📚 Курс: {course.name}\n"
-                f"💰 Сумма: {course.price} руб\n"
-                f"💳 Способ оплаты: {payment_method.name}\n"
-                f"📄 Файл: {file_name}\n\n"
-                f"⏳ Ваш платеж отправлен на проверку администратору.\n"
-                f"Обычно проверка занимает до 2 часов.\n\n"
-                f"После подтверждения вы получите ссылку на группу курса."
+                f"✅ <b>Hújjet qabıllandı!</b>\n\n"
+                f"📚 Kurs: {course.name}\n"
+                f"💰 Summa: {course.price} sum\n"
+                f"💳 Tólem usılı: {payment_method.name}\n"
+                f"📄 Fayl: {file_name}\n\n"
+                f"⏳ Siziń tólemińiz administratorǵa tekseriw ushın jiberildi.\n"
+                f"Ádette tekseriw 2 saatqa shekem waqıt aladı.\n\n"
+                f"Tastıyıqlanǵannan keyin siz kurs gruppasına silteme alasız."
             )
             
             keyboard = KeyboardBuilder.inline_keyboard([[
-                {'text': "🏠 Главное меню", 'callback_data': "back_to_menu"}
+                {'text': "🏠 Bas menyu", 'callback_data': "back_to_menu"}
             ]])
             
-            ctx.reply(success_message, keyboard, parse_mode='Markdown')
+            ctx.reply(success_message, keyboard, parse_mode='HTML')
             ctx.set_state(BotStates.MAIN_MENU)
             
             # Очищаем данные
             ctx.user_data.pop('buying_course_id', None)
             ctx.user_data.pop('payment_method_id', None)
         else:
-            ctx.reply("❌ Ошибка при сохранении платежа. Попробуйте еще раз.")
+            ctx.reply("❌ Tólemdi saqlawda qátelik júz berdi. Qaytadan urınıp kóriń.")
         
     except Exception as e:
         logger.error(f"Error processing document receipt: {e}")
-        ctx.reply("Произошла ошибка при обработке документа.")
+        ctx.reply("Hújjet qayta islewde qátelik júz berdi.")
 
 def handle_cancel_payment(bot: BotManager, update: dict):
     """Обработчик отмены платежа"""
     ctx = MessageContext(bot, update)
     
     ctx.edit_message(
-        "❌ Покупка отменена.\n\n"
-        "Вы можете выбрать другой курс или вернуться позже.",
+        "❌ Satıp alıw biykar etildi.\n\n"
+        "Siz basqa kurs tańlawıńız yamasa keyinirek qaytıwıńız múmkin.",
         KeyboardBuilder.inline_keyboard([[
-            {'text': "📚 К списку курсов", 'callback_data': "back_to_courses"},
-            {'text': "🏠 Главное меню", 'callback_data': "back_to_menu"}
+            {'text': "📚 Kurslar dizimine", 'callback_data': "back_to_courses"},
+            {'text': "🏠 Bas menyu", 'callback_data': "back_to_menu"}
         ]])
     )
     
@@ -386,34 +386,34 @@ def send_admin_notification(bot: BotManager, payment: Payment):
             return
         
         # Формируем сообщение для админа
-        message = f"🔔 **Новый платеж!**\n\n"
-        message += f"👤 Пользователь: {payment.user.full_name}\n"
-        message += f"📱 Telegram: @{payment.user.username or 'не указан'}\n"
-        message += f"📞 Телефон: {payment.user.phone or 'не указан'}\n"
+        message = f"🔔 <b>Jańa tólem!</b>\n\n"
+        message += f"👤 Paydalanıwshı: {payment.user.full_name}\n"
+        message += f"📱 Telegram: @{payment.user.username or 'kórsetilmegen'}\n"
+        message += f"📞 Telefon: {payment.user.phone or 'kórsetilmegen'}\n"
         message += f"🆔 Chat ID: `{payment.user.chat_id}`\n\n"
-        message += f"📚 Курс: {payment.course.name}\n"
-        message += f"💰 Сумма: {payment.amount} руб\n"
-        message += f"💳 Способ оплаты: {payment.payment_method.name}\n\n"
+        message += f"📚 Kurs: {payment.course.name}\n"
+        message += f"💰 Summa: {payment.amount} sum\n"
+        message += f"💳 Tólem usılı: {payment.payment_method.name}\n\n"
         
         if payment.user_comment:
-            message += f"💬 Комментарий: {payment.user_comment}\n\n"
+            message += f"💬 Kommentariy: {payment.user_comment}\n\n"
         
-        message += f"🕐 Время: {payment.created_at.strftime('%d.%m.%Y %H:%M')}\n\n"
-        message += f"Проверьте платеж в админке: /admin/payments/payment/{payment.id}/change/"
+        message += f"🕐 Waqıt: {payment.created_at.strftime('%d.%m.%Y %H:%M')}\n\n"
+        message += f"Tólemdi adminkada tekseriń: /admin/payments/payment/{payment.id}/change/"
         
         # Кнопки для быстрых действий
         buttons = [
             [
-                {'text': "✅ Одобрить", 'callback_data': f"admin_approve_{payment.id}"},
-                {'text': "❌ Отклонить", 'callback_data': f"admin_reject_{payment.id}"}
+                {'text': "✅ Tastıyıqlaw", 'callback_data': f"admin_approve_{payment.id}"},
+                {'text': "❌ Biykar etiw", 'callback_data': f"admin_reject_{payment.id}"}
             ],
-            [{'text': "📄 Открыть в админке", 'callback_data': f"admin_open_{payment.id}"}]
+            [{'text': "📄 Adminkada ashıw", 'callback_data': f"admin_open_{payment.id}"}]
         ]
         
         keyboard = KeyboardBuilder.inline_keyboard(buttons)
         
         # Отправляем сообщение
-        bot.send_message(admin_chat_id, message, keyboard, parse_mode='Markdown')
+        bot.send_message(admin_chat_id, message, keyboard, parse_mode='HTML')
         
         # Отправляем файл чека
         if payment.receipt_file:
@@ -423,13 +423,13 @@ def send_admin_notification(bot: BotManager, payment: Payment):
                         bot.send_photo(
                             admin_chat_id, 
                             f, 
-                            caption=f"Чек для платежа #{payment.id}"
+                            caption=f"#{payment.id} tólemi ushın chek"
                         )
                     else:
                         bot.api.send_document(
                             admin_chat_id,
                             f,
-                            caption=f"Чек для платежа #{payment.id}"
+                            caption=f"#{payment.id} tólemi ushın chek"
                         )
             except Exception as e:
                 logger.error(f"Error sending receipt file to admin: {e}")
@@ -449,19 +449,19 @@ def send_payment_result_to_user(bot: BotManager, payment: Payment, approved: boo
     try:
         if approved:
             message = (
-                f"✅ **Платеж подтвержден!**\n\n"
-                f"📚 Курс: {payment.course.name}\n"
-                f"💰 Сумма: {payment.amount} руб\n\n"
-                f"🎉 Поздравляем с покупкой!\n\n"
-                f"🔗 **Ссылка на группу курса:**\n"
+                f"✅ <b>Tólem tastıyıqlandı!</b>\n\n"
+                f"📚 Kurs: {payment.course.name}\n"
+                f"💰 Summa: {payment.amount} sum\n\n"
+                f"🎉 Satıp alıwıńız benen qutlıqlaymız!\n\n"
+                f"🔗 <b>Kurs gruppasına silteme:</b>\n"
                 f"{payment.course.group_link}\n\n"
-                f"Присоединяйтесь к группе и начинайте обучение!\n"
-                f"Если у вас есть вопросы, обращайтесь в поддержку."
+                f"Gruppaǵa qosılıń hám oqıwdı baslań!\n"
+                f"Eger sorawlarıńız bolsa, qollap-quwatlaw xızmetine múrájat etiń."
             )
             
             keyboard = KeyboardBuilder.inline_keyboard([
-                [{'text': "🎓 Перейти в группу", 'callback_data': f"open_group_{payment.course.id}"}],
-                [{'text': "📚 Другие курсы", 'callback_data': "back_to_courses"}]
+                [{'text': "🎓 Gruppaǵa ótiw", 'callback_data': f"open_group_{payment.course.id}"}],
+                [{'text': "📚 Basqa kurslar", 'callback_data': "back_to_courses"}]
             ])
             keyboard = None
             
@@ -476,23 +476,23 @@ def send_payment_result_to_user(bot: BotManager, payment: Payment, approved: boo
             
         else:
             message = (
-                f"❌ **Платеж отклонен**\n\n"
-                f"📚 Курс: {payment.course.name}\n"
-                f"💰 Сумма: {payment.amount} руб\n\n"
-                f"К сожалению, ваш платеж не прошел проверку.\n\n"
+                f"❌ <b>Tólem biykar etildi</b>\n\n"
+                f"📚 Kurs: {payment.course.name}\n"
+                f"💰 Summa: {payment.amount} sum\n\n"
+                f"Ókinishke oray, siziń tólemińiz tekseriwden ótpedi.\n\n"
             )
             
             if payment.comment:
-                message += f"💬 **Комментарий администратора:**\n{payment.comment}\n\n"
+                message += f"💬 <b>Administrator kommentariyi:</b>\n{payment.comment}\n\n"
             
             message += (
-                f"Если у вас есть вопросы, обратитесь в поддержку.\n"
-                f"Вы можете попробовать оплатить еще раз."
+                f"Eger sorawlarıńız bolsa, qollap-quwatlaw xızmetine múrájat etiń.\n"
+                f"Siz taǵı bir márte tólewge urınıp kóriwińizge boladı."
             )
             
             keyboard = KeyboardBuilder.inline_keyboard([
-                [{'text': "🔄 Попробовать еще раз", 'callback_data': f"buy_{payment.course.id}"}],
-                [{'text': "📞 Поддержка", 'callback_data': "support"}]
+                [{'text': "🔄 Qaytadan urınıp kóriw", 'callback_data': f"buy_{payment.course.id}"}],
+                [{'text': "📞 Qollap-quwatlaw", 'callback_data': "support"}]
             ])
             
             # Отмечаем уведомление
@@ -516,7 +516,7 @@ def handle_confirm_payment(bot: BotManager, update: dict):
         # Ожидаем формат: "confirm_payment_123" или "admin_approve_123"
         parts = ctx.callback_data.split('_')
         if len(parts) < 3:
-            ctx.edit_message("❌ Ошибка: неверный формат команды.")
+            ctx.edit_message("❌ Qátelik: buyrıq formatı nadurıs.")
             return
             
         payment_id = int(parts[-1])  # Берем последний элемент как ID
@@ -525,15 +525,15 @@ def handle_confirm_payment(bot: BotManager, update: dict):
         try:
             payment = Payment.objects.get(id=payment_id)
         except Payment.DoesNotExist:
-            ctx.edit_message("❌ Платеж не найден.")
+            ctx.edit_message("❌ Tólem tabılmadı.")
             return
         
         # Проверяем, что платеж еще не обработан
         if payment.status != 'pending':
             status_text = payment.get_status_display()
             ctx.edit_message(
-                f"⚠️ Платеж уже обработан.\n"
-                f"Текущий статус: {status_text}"
+                f"⚠️ Tólem qayta islenip bolǵan.\n"
+                f"Házirgi statusı: {status_text}"
             )
             return
         
@@ -547,33 +547,33 @@ def handle_confirm_payment(bot: BotManager, update: dict):
         
         # Формируем сообщение об успешном подтверждении
         success_message = (
-            f"✅ **Платеж подтвержден!**\n\n"
-            f"👤 Пользователь: {payment.user.full_name}\n"
-            f"📱 @{payment.user.username or 'не указан'}\n"
-            f"📚 Курс: {payment.course.name}\n"
-            f"💰 Сумма: {payment.amount} руб\n"
-            f"🕐 Время обработки: {payment.processed_at.strftime('%d.%m.%Y %H:%M')}\n\n"
+            f"✅ <b>Tólem tastıyıqlandı!</b>\n\n"
+            f"👤 Paydalanıwshı: {payment.user.full_name}\n"
+            f"📱 @{payment.user.username or 'kórsetilmegen'}\n"
+            f"📚 Kurs: {payment.course.name}\n"
+            f"💰 Summa: {payment.amount} sum\n"
+            f"🕐 Qayta islew waqtı: {payment.processed_at.strftime('%d.%m.%Y %H:%M')}\n\n"
         )
         
         if success:
-            success_message += "📤 Ссылка на группу отправлена пользователю."
+            success_message += "📤 Gruppaǵa silteme paydalanıwshıǵa jiberildi."
         else:
-            success_message += "⚠️ Ошибка при отправке ссылки пользователю."
+            success_message += "⚠️ Paydalanıwshıǵa silteme jiberiwde qátelik."
         
         # Кнопки для дальнейших действий
         buttons = [
-            [{'text': "📄 Открыть в админке", 'callback_data': f"admin_open_{payment.id}"}],
-            [{'text': "💬 Связаться с пользователем", 'callback_data': f"contact_user_{payment.user.chat_id}"}]
+            [{'text': "📄 Adminkada ashıw", 'callback_data': f"admin_open_{payment.id}"}],
+            [{'text': "💬 Paydalanıwshı menen baylanısıw", 'callback_data': f"contact_user_{payment.user.chat_id}"}]
         ]
         
         keyboard = KeyboardBuilder.inline_keyboard(buttons)
         
-        ctx.edit_message(success_message, keyboard, parse_mode='Markdown')
+        ctx.edit_message(success_message, keyboard, parse_mode='HTML')
         
         logger.info(f"Payment {payment.id} approved by admin {ctx.chat_id}")
         
     except ValueError:
-        ctx.edit_message("❌ Ошибка: неверный ID платежа.")
+        ctx.edit_message("❌ Qátelik: tólem ID nomeri nadurıs.")
     except Exception as e:
         logger.error(f"Error confirming payment: {e}")
-        ctx.edit_message("❌ Произошла ошибка при подтверждении платежа.")
+        ctx.edit_message("❌ Tólemdi tastıyıqlawda qátelik júz berdi.") 

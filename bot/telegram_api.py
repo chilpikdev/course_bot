@@ -137,7 +137,8 @@ class TelegramAPI:
         params = {
             'chat_id': chat_id,
             'message_id': message_id,
-            'text': text
+            'text': text,
+            'parse_mode': 'HTML'
         }
         
         if reply_markup:

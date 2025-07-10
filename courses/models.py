@@ -161,11 +161,11 @@ class PaymentMethod(models.Model):
         """Получить информацию о способе оплаты для отправки пользователю"""
         info = f"💳 {self.name}\n"
         if self.card_number:
-            info += f"Номер карты: {self.card_number}\n"
+            info += f"Karta nomeri: {self.card_number}\n"
         if self.cardholder_name:
-            info += f"Получатель: {self.cardholder_name}\n"
+            info += f"Qabıllawshı: {self.cardholder_name}\n"
         if self.bank_name:
-            info += f"Банк: {self.bank_name}\n"
+            info += f"Bank: {self.bank_name}\n"
         if self.instructions:
-            info += f"\nИнструкции:\n{self.instructions}"
+            info += f"\nInstrukciya:\n{self.instructions}"
         return info

@@ -6,6 +6,7 @@ from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_URL = config('BASE_URL', default='http://localhost:8000')
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-change-me-in-production')
@@ -14,9 +15,9 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-change-me-in-producti
 DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=lambda v: [s.strip() for s in v.split(',')])
-print(ALLOWED_HOSTS)
+ALLOWED_HOSTS.append(BASE_URL.replace('http://', '').replace('https://', ''))
 
-CSRF_TRUSTED_ORIGINS = ['https://c5ba-84-54-83-142.ngrok-free.app']
+CSRF_TRUSTED_ORIGINS = [BASE_URL]
 
 # Application definition
 INSTALLED_APPS = [
@@ -108,7 +109,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Telegram Bot settings
 TELEGRAM_BOT_TOKEN = config('TELEGRAM_BOT_TOKEN', default='')
-TELEGRAM_WEBHOOK_URL = config('TELEGRAM_WEBHOOK_URL', default='')
+TELEGRAM_WEBHOOK_URL = f'{BASE_URL}/bot/webhook/'
 TELEGRAM_ADMIN_CHAT_ID = config('TELEGRAM_ADMIN_CHAT_ID', default='')
 
 

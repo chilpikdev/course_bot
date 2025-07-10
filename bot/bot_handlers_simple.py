@@ -22,9 +22,9 @@ def setup_bot_handlers(bot: BotManager):
     bot.add_command_handler('help', handle_help_command)
     
     # Текстовые сообщения (кнопки)
-    bot.add_text_handler('📚 Курсы', handle_courses_button)
-    bot.add_text_handler('ℹ️ О нас', handle_about_button)
-    bot.add_text_handler('📞 Поддержка', handle_support_button)
+    bot.add_text_handler('📚 Kurslar', handle_courses_button)
+    bot.add_text_handler('ℹ️ Biz haqqımızda', handle_about_button)
+    bot.add_text_handler('📞 Qollap-quwatlaw', handle_support_button)
     
     # Контакт
     bot.set_contact_handler(handle_contact)
@@ -74,13 +74,13 @@ def handle_start_command(bot: BotManager, update: dict):
         if not telegram_user.phone:
             # Запрашиваем контакт
             keyboard = KeyboardBuilder.reply_keyboard([
-                ["📱 Поделиться номером"]
+                ["📱 Nomerdi jiberiw"]
             ], one_time_keyboard=True)
             
             ctx.reply(
-                "🎓 Добро пожаловать в бот для покупки курсов!\n\n"
-                "Я помогу вам выбрать и купить подходящий курс.\n"
-                "Для начала поделитесь своим номером телефона.",
+                "🎓 Kurs satıp alıw ushın mo'lsherlengen botqa xosh kelipsiz!\n\n"
+                "Men sizge qolaylı kurstı tańlaw hám satıp alıwǵa járdem beremen.\n"
+                "Baslaw ushın telefon nomerińizdi jiberiń.",
                 reply_markup=keyboard
             )
             ctx.set_state(BotStates.WAITING_CONTACT)
@@ -91,7 +91,7 @@ def handle_start_command(bot: BotManager, update: dict):
     
     except Exception as e:
         logger.error(f"Error in start command: {e}")
-        ctx.reply("Произошла ошибка. Попробуйте еще раз /start")
+        ctx.reply("Qátelik júz berdi. /start buyrıǵın qaytadan teriń")
 
 def handle_contact(bot: BotManager, update: dict):
     """Обработчик получения контакта"""
@@ -111,25 +111,25 @@ def handle_contact(bot: BotManager, update: dict):
             logger.info(f"Contact received from user {ctx.chat_id}: {contact.get('phone_number')}")
             
             ctx.reply(
-                "✅ Спасибо! Ваш номер телефона сохранен.\n\n"
-                "Теперь вы можете выбрать курс:"
+                "✅ Raxmet! Telefon nomerińiz saqlandı.\n\n"
+                "Endi siz kurstı tańlay alasız:"
             )
             
             show_main_menu(ctx)
             ctx.set_state(BotStates.MAIN_MENU)
         else:
             keyboard = KeyboardBuilder.reply_keyboard([
-                ["📱 Поделиться номером"]
+                ["📱 Nomerdi jiberiw"]
             ], one_time_keyboard=True)
             
             ctx.reply(
-                "❌ Пожалуйста, поделитесь именно своим номером телефона.",
+                "❌ Ótinish, tek óz telefon nomerińizdi jiberiń.",
                 reply_markup=keyboard
             )
     
     except Exception as e:
         logger.error(f"Error handling contact: {e}")
-        ctx.reply("Произошла ошибка при сохранении контакта. Попробуйте еще раз.")
+        ctx.reply("Kontaktıńızdı saqlawda qátelik júz berdi. Qaytadan urınıp kóriń.")
 
 def handle_courses_button(bot: BotManager, update: dict):
     """Обработчик кнопки 'Курсы'"""
@@ -141,15 +141,15 @@ def handle_about_button(bot: BotManager, update: dict):
     ctx = MessageContext(bot, update)
     
     ctx.reply(
-        "📖 *О нас*\n\n"
-        "Мы предлагаем качественные онлайн-курсы по программированию.\n\n"
-        "🎯 Наши преимущества:\n"
-        "• Практические задания\n"
-        "• Поддержка преподавателей\n"
-        "• Сертификаты о прохождении\n"
-        "• Доступ к закрытым группам\n\n"
-        "📞 Остались вопросы? Напишите @support",
-        parse_mode='Markdown'
+        "📖 <b>Biz haqqımızda</b>\n\n"
+        "Biz programmalastırıw boyınsha sapalı onlayn-kurslardı usınamız.\n\n"
+        "🎯 Bizim abzallıqlarımız:\n"
+        "• Ámeliy tapsırmalar\n"
+        "• Oqıtıwshılar tárepinen qollap-quwatlaw\n"
+        "• Kurstı tamamlaǵanlıǵı haqqında sertifikatlar\n"
+        "• Jabıq gruppalarǵa kiriw múmkinshiligi\n\n"
+        "📞 Sorawlarıńız qaldı ma? @support adresine jazıń",
+        parse_mode='HTML'
     )
 
 def handle_support_button(bot: BotManager, update: dict):
@@ -157,13 +157,13 @@ def handle_support_button(bot: BotManager, update: dict):
     ctx = MessageContext(bot, update)
     
     ctx.reply(
-        "📞 *Поддержка*\n\n"
-        "Если у вас есть вопросы, обращайтесь:\n\n"
+        "📞 <b>Qollap-quwatlaw xızmeti</b>\n\n"
+        "Eger sorawlarıńız bolsa, bizge múrájat etiń:\n\n"
         "👨‍💻 Telegram: @support\n"
         "📧 Email: support@example.com\n"
-        "🕐 Время работы: 9:00 - 21:00 (МСК)\n\n"
-        "Мы обязательно вам поможем!",
-        parse_mode='Markdown'
+        "🕐 Jumıs waqtı: 9:00 - 21:00 (МСК)\n\n"
+        "Biz sizge álbette járdem beremiz!",
+        parse_mode='HTML'
     )
 
 def handle_course_details(bot: BotManager, update: dict):
@@ -176,25 +176,25 @@ def handle_course_details(bot: BotManager, update: dict):
         course = Course.objects.get(id=course_id)
         
         # Формируем сообщение
-        message = f"📚 *{course.name}*\n\n"
+        message = f"📚 <b>{course.name}</b>\n\n"
         message += f"{course.get_display_description()}\n\n"
         
         # Цена и скидка
         if course.discount_percentage > 0:
-            message += f"💰 Цена: ~{course.old_price}~ *{course.price} руб* "
-            message += f"🔥 *(-{course.discount_percentage}%)*\n\n"
+            message += f"💰 Bahası: <s>{course.old_price}</s> <b>{course.price} sum</b> "
+            message += f"🔥 <b>(-{course.discount_percentage}%)</b>\n\n"
         else:
-            message += f"💰 Цена: *{course.price} руб*\n\n"
+            message += f"💰 Bahası: <b>{course.price} sum</b>\n\n"
         
         # Информация о доступности
         if course.max_students:
             current_students = course.current_students_count
-            message += f"👥 Мест занято: {current_students}/{course.max_students}\n"
+            message += f"👥 Bánt orınlar: {current_students}/{course.max_students}\n"
             
             if not course.is_available:
-                message += "❌ *Мест больше нет*\n\n"
+                message += "❌ <b>Orınlar qalmadi</b>\n\n"
             else:
-                message += f"✅ Доступно мест: {course.max_students - current_students}\n\n"
+                message += f"✅ Bos orınlar: {course.max_students - current_students}\n\n"
         
 
         
@@ -203,13 +203,13 @@ def handle_course_details(bot: BotManager, update: dict):
         
         if course.is_available:
             buttons.append([{
-                'text': f"💳 Купить за {course.price} руб",
+                'text': f"💳 {course.price} sum-ǵa satıp alıw",
                 'callback_data': f"buy_{course.id}"
             }])
         
         buttons.extend([
-            [{'text': "◀️ К списку курсов", 'callback_data': "back_to_courses"}],
-            [{'text': "🏠 Главное меню", 'callback_data': "back_to_menu"}]
+            [{'text': "◀️ Kurslar dizimine", 'callback_data': "back_to_courses"}],
+            [{'text': "🏠 Bas menyu", 'callback_data': "back_to_menu"}]
         ])
         
         keyboard = KeyboardBuilder.inline_keyboard(buttons)
@@ -220,7 +220,7 @@ def handle_course_details(bot: BotManager, update: dict):
     
     except Exception as e:
         logger.error(f"Error showing course details: {e}")
-        ctx.reply("Произошла ошибка при загрузке информации о курсе.")
+        ctx.reply("Kurs haqqında maǵlıwmat júklewde qátelik júz berdi.")
 
 def handle_back_to_courses(bot: BotManager, update: dict):
     """Обработчик возврата к списку курсов"""
@@ -244,7 +244,7 @@ def handle_cancel_command(bot: BotManager, update: dict):
     """Обработчик команды /cancel"""
     ctx = MessageContext(bot, update)
     
-    ctx.reply("🏠 Возвращаемся в главное меню.")
+    ctx.reply("🏠 Bas menyuǵa qaytıp atırmız.")
     show_main_menu(ctx)
     ctx.set_state(BotStates.MAIN_MENU)
     
@@ -257,22 +257,22 @@ def handle_help_command(bot: BotManager, update: dict):
     ctx = MessageContext(bot, update)
     
     ctx.reply(
-        "🤖 *Помощь*\n\n"
-        "Доступные команды:\n"
-        "/start - Начать работу с ботом\n"
-        "/help - Показать эту справку\n"
-        "/cancel - Вернуться в главное меню\n\n"
-        "Используйте кнопки для навигации.\n\n"
-        "📚 *Как купить курс:*\n"
-        "1. Выберите \"📚 Курсы\"\n"
-        "2. Выберите интересующий курс\n"
-        "3. Нажмите \"💳 Купить\"\n"
-        "4. Выберите способ оплаты\n"
-        "5. Оплатите по реквизитам\n"
-        "6. Пришлите скриншот чека\n"
-        "7. Дождитесь подтверждения\n\n"
-        "При возникновении проблем обращайтесь в поддержку.",
-        parse_mode='Markdown'
+        "🤖 <b>Járdem</b>\n\n"
+        "Qoljetimli buyrıqlar:\n"
+        "/start - Bot penen islewdi baslaw\n"
+        "/help - Usı kórsetpeni kórsetiw\n"
+        "/cancel - Bas menyuǵa qaytıw\n\n"
+        "Navigaciya ushın túymelerden paydalanıń.\n\n"
+        "📚 <b>Kurs qalay satıp alınadı:</b>\n"
+        "1. \"📚 Kurslar\" di tańlań\n"
+        "2. Qızıqtırǵan kurstı tańlań\n"
+        "3. \"💳 Satıp alıw\" di basıń\n"
+        "4. Tólem usılın tańlań\n"
+        "5. Rekvizitler boyınsha tóleń\n"
+        "6. Chek skrinshotın jiberiń\n"
+        "7. Tastıyıqlanıwın kútiń\n\n"
+        "Qanday da bir másele payda bolsa, qollap-quwatlaw xızmetine múrájat etiń.",
+        parse_mode='HTML'
     )
 
 def handle_photo(bot: BotManager, update: dict):
@@ -284,9 +284,9 @@ def handle_photo(bot: BotManager, update: dict):
         handle_photo_receipt(bot, update)
     else:
         ctx.reply(
-            "📸 Я получил ваше фото.\n\n"
-            "Если вы хотите отправить чек об оплате курса, "
-            "сначала выберите курс и нажмите \"💳 Купить\"."
+            "📸 Men siziń fotońızdı aldım.\n\n"
+            "Eger siz kurs tólemi haqqında chekti jiberiwdi qáleseńiz, "
+            "dáslep kurstı tańlap, \"💳 Satıp alıw\" túymesin basıń."
         )
 
 def handle_document(bot: BotManager, update: dict):
@@ -298,9 +298,9 @@ def handle_document(bot: BotManager, update: dict):
         handle_document_receipt(bot, update)
     else:
         ctx.reply(
-            "📄 Я получил ваш документ.\n\n"
-            "Если вы хотите отправить чек об оплате курса, "
-            "сначала выберите курс и нажмите \"💳 Купить\"."
+            "📄 Men siziń hújjetińizdi aldım.\n\n"
+            "Eger siz kurs tólemi haqqında chekti jiberiwdi qáleseńiz, "
+            "dáslep kurstı tańlap, \"💳 Satıp alıw\" túymesin basıń."
         )
 
 # Вспомогательные функции
@@ -308,15 +308,14 @@ def handle_document(bot: BotManager, update: dict):
 def show_main_menu(ctx: MessageContext):
     """Показать главное меню"""
     keyboard = KeyboardBuilder.reply_keyboard([
-        ["📚 Курсы"],
-        ["ℹ️ О нас", "📞 Поддержка"]
+        ["📚 Kurslar"],
+        ["ℹ️ Biz haqqımızda", "📞 Qollap-quwatlaw"]
     ])
     
     ctx.reply(
-        "🏠 *Главное меню*\n\n"
-        "Выберите действие:",
+        "🏠 <b>Bas menyu</b>",
         reply_markup=keyboard,
-        parse_mode='Markdown'
+        parse_mode='HTML'
     )
 
 def show_courses_list(ctx: MessageContext, edit_message: bool = False):
@@ -326,7 +325,7 @@ def show_courses_list(ctx: MessageContext, edit_message: bool = False):
         courses = Course.objects.filter(is_active=True).order_by('order', 'name')
         
         if not courses:
-            message = "😔 К сожалению, сейчас нет доступных курсов.\nПопробуйте позже."
+            message = "😔 Házirshe kurslar joq.\nKeyinirek urınıp kóriń."
             if edit_message:
                 ctx.edit_message(message)
             else:
@@ -346,27 +345,27 @@ def show_courses_list(ctx: MessageContext, edit_message: bool = False):
             }])
         
         buttons.append([{
-            'text': "◀️ Назад в меню",
+            'text': "◀️ Menyuǵa qaytıw",
             'callback_data': "back_to_menu"
         }])
         
         keyboard = KeyboardBuilder.inline_keyboard(buttons)
         
         message = (
-            "📚 *Доступные курсы:*\n\n"
-            "Выберите курс, чтобы узнать подробности и купить:"
+            "📚 <b>Kurslar:</b>\n\n"
+            "Tolıq maǵlıwmat alıw hám satıp alıw ushın kurstı tańlań:"
         )
         
         if edit_message:
             ctx.edit_message(message, keyboard)
         else:
-            ctx.reply(message, keyboard, parse_mode='Markdown')
+            ctx.reply(message, keyboard, parse_mode='HTML')
         
         ctx.set_state(BotStates.COURSE_SELECTION)
     
     except Exception as e:
         logger.error(f"Error showing courses: {e}")
-        ctx.reply("Произошла ошибка при загрузке курсов.")
+        ctx.reply("Kurslardı júklewde qátelik júz berdi.")
 
 # Функции для админских уведомлений (для следующих этапов)
 
