@@ -96,26 +96,7 @@ class BotManager:
                 user = message['from']
                 
                 logger.info(f"Message from {user.get('username', user.get('first_name', 'Unknown'))} ({chat_id})")
-                print(chat_id)
-                # Отправьте сообщение из специального телеграм-канала всем пользователям
-                if str(chat_id) == str(settings.TELEGRAM_CHANNEL_ID):
-                    
-                    users = TelegramUser.objects.all()
-                    message_id = message['message_id']
-                    for user_obj in users:
-                        self.api.session.post(
-                            f"https://api.telegram.org/bot{self.api.token}/forwardMessage",
-                            json={
-                                "chat_id": user_obj.chat_id,
-                                "from_chat_id": chat_id,
-                                "message_id": message_id
-                            }
-                        )
-                    return
 
-                    
-                
-                
                 # Команды
                 if 'text' in message and message['text'].startswith('/'):
                     command = message['text'][1:]  # Убираем /
