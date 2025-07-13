@@ -21,6 +21,7 @@ class TelegramAPI:
         """Выполнить HTTP запрос к Telegram API"""
         url = f"{self.base_url}/{method}"
         print(params)
+        print(files)
         
         try:
             if files:
@@ -37,7 +38,6 @@ class TelegramAPI:
                 error_msg = result.get('description', 'Unknown error')
                 logger.error(f"Telegram API error: {error_msg}")
                 raise Exception(f"Telegram API error: {error_msg}")
-            
             return result.get('result')
             
         except requests.exceptions.RequestException as e:

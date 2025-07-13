@@ -6,7 +6,7 @@ from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-BASE_URL = config('BASE_URL', default='http://localhost:8000')
+BASE_URL = config('BASE_URL', default='https://90ba24821cb1.ngrok-free.app')
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-change-me-in-production')
@@ -16,6 +16,7 @@ DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=lambda v: [s.strip() for s in v.split(',')])
 ALLOWED_HOSTS.append(BASE_URL.replace('http://', '').replace('https://', ''))
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
 
 CSRF_TRUSTED_ORIGINS = [BASE_URL]
 

@@ -12,6 +12,7 @@ from django.conf import settings
 from .models import Payment, Advertisement, PaymentNotification, TelegramUser
 # send message module
 from bot.bot_manager import BotManager
+from .tasks import send_advertisement_task
 
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
@@ -275,7 +276,7 @@ class PaymentAdmin(admin.ModelAdmin):
 @admin.register(Advertisement)
 class AdvertisementAdmin(admin.ModelAdmin):
     list_display = [
-        'title', 'target_info', 'scheduled_at', 'is_sent', 
+        'title', 'target_info', 'is_sent', 
         'success_count', 'failed_count', 'created_at', 'send_actions'
     ]
     list_filter = ['is_sent', 'target_all_users', 'target_active_only', 'created_at']
@@ -288,13 +289,6 @@ class AdvertisementAdmin(admin.ModelAdmin):
         }),
         ('Кнопка (необязательно)', {
             'fields': ('button_text', 'button_url'),
-            'classes': ('collapse',)
-        }),
-        ('Настройки отправки', {
-            'fields': ('target_all_users', 'target_active_only', 'scheduled_at')
-        }),
-        ('Статистика', {
-            'fields': ('is_sent', 'sent_at', 'success_count', 'failed_count', 'created_at'),
             'classes': ('collapse',)
         })
     )
@@ -331,28 +325,15 @@ class AdvertisementAdmin(admin.ModelAdmin):
     send_actions.short_description = "Действия"
     
     def send_advertisement(self, request, ad_id):
-        """Отправить рекламное объявление"""
         ad = get_object_or_404(Advertisement, id=ad_id)
-        
+
         if ad.is_sent:
             messages.error(request, "Объявление уже отправлено")
         else:
-            # users = TelegramUser.objects.all()
-            # if ad.target_active_only:
-            #     users = users.filter(is_active=True)
-
-            # for user in users:
-            #     BotManager.send_message(
-
-            #     )
-
-
-            ad.is_sent = True
-            ad.sent_at = timezone.now()
-            ad.success_count = 10  # Заглушка
-            ad.save()
-            
-            messages.success(request, f"Объявление \"{ad.title}\" отправлено")
+            send_advertisement_task.delay(ad.id)  # Async fon rejimida ishlaydi
+            messages.success(request, f"Объявление \"{ad.title}\" поставлено в очередь")
+        ad.is_sent = True
+        ad.save()
         
         return redirect('admin:payments_advertisement_changelist')
     

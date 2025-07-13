@@ -218,6 +218,13 @@ class Advertisement(models.Model):
     def total_sent(self):
         """Общее количество отправленных сообщений"""
         return self.success_count + self.failed_count
+    
+    @property
+    def image_url(self):
+        """URL изображения, если есть"""
+        if self.image:
+            return self.image.url
+        return None
 
 class PaymentNotification(models.Model):
     """Модель для отслеживания уведомлений о платежах"""
