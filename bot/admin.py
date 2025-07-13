@@ -50,10 +50,3 @@ class TelegramUserAdmin(admin.ModelAdmin):
         count = queryset.update(is_blocked=False)
         self.message_user(request, f"Разблокировано {count} пользователей.")
     unblock_users.short_description = "Разблокировать выбранных пользователей"
-
-@admin.register(UserState)
-class UserStateAdmin(admin.ModelAdmin):
-    list_display = ['user', 'current_state', 'updated_at']
-    list_filter = ['current_state', 'updated_at']
-    search_fields = ['user__username', 'user__first_name', 'user__chat_id']
-    readonly_fields = ['updated_at']

@@ -111,6 +111,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 TELEGRAM_BOT_TOKEN = config('TELEGRAM_BOT_TOKEN', default='')
 TELEGRAM_WEBHOOK_URL = f'{BASE_URL}/bot/webhook/'
 TELEGRAM_ADMIN_CHAT_ID = config('TELEGRAM_ADMIN_CHAT_ID', default='')
+TELEGRAM_CHANNEL_ID = config('TELEGRAM_CHANNEL_ID', default='-1002876330626')
+
 
 
 # Настройки для админки

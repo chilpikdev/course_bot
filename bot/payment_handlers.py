@@ -204,9 +204,6 @@ def handle_photo_receipt(bot: BotManager, update: dict):
         )
         
         if payment:
-            # Отправляем уведомление администратору
-            send_admin_notification(bot, payment)
-            
             # Подтверждение пользователю
             success_message = (
                 f"✅ <b>Chek qabıllandı!</b>\n\n"
@@ -292,8 +289,6 @@ def handle_document_receipt(bot: BotManager, update: dict):
         )
         
         if payment:
-            # Отправляем уведомление администратору
-            send_admin_notification(bot, payment)
             
             # Подтверждение пользователю
             success_message = (

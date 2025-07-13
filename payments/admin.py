@@ -9,7 +9,9 @@ from django.contrib import messages
 from django.utils import timezone
 from django.http import HttpResponse, JsonResponse
 from django.conf import settings
-from .models import Payment, Advertisement, PaymentNotification
+from .models import Payment, Advertisement, PaymentNotification, TelegramUser
+# send message module
+from bot.bot_manager import BotManager
 
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
@@ -335,8 +337,16 @@ class AdvertisementAdmin(admin.ModelAdmin):
         if ad.is_sent:
             messages.error(request, "Объявление уже отправлено")
         else:
-            # Здесь будет логика отправки рекламы
-            # Пока просто отмечаем как отправленное
+            # users = TelegramUser.objects.all()
+            # if ad.target_active_only:
+            #     users = users.filter(is_active=True)
+
+            # for user in users:
+            #     BotManager.send_message(
+
+            #     )
+
+
             ad.is_sent = True
             ad.sent_at = timezone.now()
             ad.success_count = 10  # Заглушка
@@ -359,11 +369,3 @@ class AdvertisementAdmin(admin.ModelAdmin):
         self.message_user(request, f"Отправлено {count} объявлений.")
     send_advertisements.short_description = "📤 Отправить выбранные объявления"
 
-@admin.register(PaymentNotification)
-class PaymentNotificationAdmin(admin.ModelAdmin):
-    list_display = ['payment', 'admin_notified', 'user_notified_approved', 'user_notified_rejected', 'created_at']
-    list_filter = ['admin_notified', 'user_notified_approved', 'user_notified_rejected', 'created_at']
-    readonly_fields = ['created_at']
-    
-    def has_add_permission(self, request):
-        return False  # Запрещаем создание вручную
