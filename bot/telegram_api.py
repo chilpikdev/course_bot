@@ -203,7 +203,7 @@ class KeyboardBuilder:
         for row in buttons:
             keyboard_row = []
             for button in row:
-                if button == "📱 Поделиться номером":
+                if button == "📱 Nomerdi jiberiw":
                     # Специальная кнопка для запроса контакта
                     keyboard_row.append({
                         'text': button,
