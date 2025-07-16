@@ -19,6 +19,9 @@ source .venv/bin/activate
 ```bash
 pip install -r requirements.txt
 ```
+```bash
+pip install uvicorn
+```
 
 ## ⚙️ 4. Выполнение миграций и создание суперпользователя
 
@@ -30,7 +33,15 @@ python manage.py createsuperuser
 ## 🚀 5. Запуск всех сервисов через PM2
 
 ```bash
-pm2 start ecosystem.config.js
+pm2 start .venv/bin/python --name django_server -- \
+  -m uvicorn course_bot_project.asgi:application --host 0.0.0.0 --port 8000
+```
+```bash
+pm2 start .venv/bin/python --name telegram_bot -- bot_polling.py
+```
+```bash
+pm2 start .venv/bin/python --name celery_worker -- \
+  -m celery -A course_bot_project worker --loglevel=info
 ```
 
 ## 📄 6. Просмотр логов
