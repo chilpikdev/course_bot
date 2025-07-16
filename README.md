@@ -30,7 +30,7 @@ python manage.py createsuperuser
 ## 🚀 5. Запуск всех сервисов через PM2
 
 ```bash
-pm2 start process.json
+pm2 start ecosystem.config.js
 ```
 
 ## 📄 6. Просмотр логов
@@ -72,7 +72,7 @@ pm2 save
 ### 🔁 Полная последовательность запуска
 
 ```bash
-pm2 start process.json
+pm2 start ecosystem.config.js
 pm2 save
 pm2 startup     # выполняется один раз
 ```
