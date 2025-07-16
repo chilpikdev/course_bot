@@ -19,14 +19,12 @@ source .venv/bin/activate
 ```bash
 pip install -r requirements.txt
 ```
-```bash
-pip install uvicorn
-```
 
 ## ⚙️ 4. Выполнение миграций и создание суперпользователя
 
 ```bash
 python manage.py migrate
+python manage.py collectstatic
 python manage.py createsuperuser
 ```
 
