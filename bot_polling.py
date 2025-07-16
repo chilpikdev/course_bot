@@ -10,6 +10,9 @@ django.setup()
 from bot.bot_manager import BotManager
 from bot.bot_handlers_simple import setup_bot_handlers
 
+from dotenv import load_dotenv
+load_dotenv()
+
 BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')
 API_URL = f'https://api.telegram.org/bot{BOT_TOKEN}'
 OFFSET = None
