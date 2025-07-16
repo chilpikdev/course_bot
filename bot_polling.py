@@ -38,10 +38,10 @@ while True:
         updates = result.get("result", [])      
         for update in updates:
             bot.process_update(update)
-            OFFSET = update['update_id'] + 1                     
-            
+            OFFSET = update['update_id'] + 1        
     else:
-        print(f"Error: {result.get('description')}")
+        print(BOT_TOKEN)
+        print(result)
 
 
     time.sleep(.5)
