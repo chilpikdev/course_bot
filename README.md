@@ -1,99 +1,83 @@
 # Django + Telegram Bot + Celery: Запуск проекта
 
-## ⬇️ 1. Клонирование проекта
+---
 
-```bash
-git clone https://github.com/chilpikdev/course_bot.git
-cd course_bot
-```
+## Чтобы запустить проект **Django + Telegram Bot + Celery**, делай так:
 
-## 🐍 2. Создание виртуального окружения
+### 1. Клонируй репозиторий:
 
-```bash
-python -m venv .venv
-source .venv/bin/activate
-```
+   ```bash
+   git clone https://github.com/chilpikdev/course_bot.git
+   cd course_bot
+   ```
 
-## 📥 3. Установка необходимых библиотек
+### 2. Установи зависимости для Python:
 
-```bash
-pip install -r requirements.txt
-```
+   ```bash
+   sudo apt install python3.10-venv -y
 
-## ⚙️ 4. Выполнение миграций и создание суперпользователя
+   python -m venv .venv
+   source .venv/bin/activate
 
-```bash
-python manage.py migrate
-python manage.py collectstatic
-python manage.py createsuperuser
-```
+   pip install -r requirements.txt
+   ```
 
-## 🚀 5. Запуск всех сервисов через PM2
+### 3. Подними Django:
 
-```bash
-pm2 start .venv/bin/python --name django_server -- \
-  -m uvicorn course_bot_project.asgi:application --host 0.0.0.0 --port 8000
-```
-```bash
-pm2 start .venv/bin/python --name telegram_bot -- bot_polling.py
-```
-```bash
-pm2 start .venv/bin/python --name celery_worker -- \
-  -m celery -A course_bot_project worker --loglevel=info
-```
+   ```bash
+   python manage.py migrate
+   python manage.py collectstatic
+   python manage.py createsuperuser
+   ```
 
-## 📄 6. Просмотр логов
+### 4. Поставь Node.js и PM2:
 
-```bash
-pm2 logs          # все логи
-pm2 logs django_server
-pm2 logs telegram_bot
-pm2 logs celery_worker
-```
+   ```bash
+   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 
-## 🛑 7. Остановка или удаление сервисов
+   export NVM_DIR="$HOME/.nvm"
+   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+   [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
-```bash
-pm2 stop all
-pm2 restart all
-pm2 delete all
-```
+   nvm install --lts
+   npm install -g pm2
+   ```
 
+### 5. Запусти процессы через PM2:
+
+   ```bash
+   pm2 start .venv/bin/python --name django_server -- \
+     -m uvicorn course_bot_project.asgi:application --host 0.0.0.0 --port 8000
+
+   pm2 start .venv/bin/python --name telegram_bot -- bot_polling.py
+
+   pm2 start .venv/bin/python --name celery_worker -- \
+     -m celery -A course_bot_project worker --loglevel=info
+   ```
+
+### 6. Настрой автозапуск:
+
+   ```bash
+   pm2 startup
+   pm2 save
+   ```
 
 ---
 
-## ⚙️ 8. Автоматический запуск при перезагрузке сервера (Linux)
+## Управлять можно так:
 
-```bash
-pm2 startup
-```
-
-Команда отобразит нужную команду `systemctl enable pm2-root`, которую необходимо скопировать и вставить в терминал.
-
-После этого выполните команду **`pm2 save`**:
-
-```bash
-pm2 save
-```
+* `pm2 logs` — все логи
+* `pm2 logs django_server` — логи Django
+* `pm2 logs telegram_bot` — логи бота
+* `pm2 logs celery_worker` — логи Celery
+* `pm2 stop all` — остановить все процессы
+* `pm2 restart all` — перезапустить
+* `pm2 delete all` — удалить
 
 ---
 
-### 🔁 Полная последовательность запуска
+## Важно:
 
-```bash
-pm2 start ecosystem.config.js
-pm2 save
-pm2 startup     # выполняется один раз
-```
+* После обновления проекта не забудь сделать `pm2 restart all` и `pm2 save`, иначе после перезагрузки сервера ничего не поднимется.
+* Redis должен быть запущен (`redis-server`).
 
----
-
-### 📌 Важно
-
-* Если вы обновили проект и выполнили `pm2 restart`, но забыли выполнить `pm2 save`, то после перезагрузки сервера ничего не запустится автоматически.
-
-* Redis-сервер должен быть запущен:
-
-  ```bash
-  redis-server
-  ```
