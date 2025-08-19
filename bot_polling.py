@@ -30,21 +30,21 @@ def get_bot_instance():
 bot = get_bot_instance()   
 
 while True:
-    params = {'timeout': 10}
-    if OFFSET:
-        params['offset'] = OFFSET
+    try:
+        params = {'timeout': 30}
+        if OFFSET:
+            params['offset'] = OFFSET
+    
+        response = requests.get(f'{API_URL}/getUpdates', params=params, timeout=35)
+        result = response.json()
+    
+        if result.get("ok"):
+            updates = result.get("result", [])      
+            for update in updates:
+                bot.process_update(update)
+                OFFSET = update['update_id'] + 1        
+        else:
+            print("Error:", result)
+    except requests.exceptions.RequestException as e:
+        print("Connection error:", e)
 
-    response = requests.get(f'{API_URL}/getUpdates', params=params)
-    result = response.json()
-
-    if result.get("ok"):
-        updates = result.get("result", [])      
-        for update in updates:
-            bot.process_update(update)
-            OFFSET = update['update_id'] + 1        
-    else:
-        print(BOT_TOKEN)
-        print(result)
-
-
-    time.sleep(.5)
