@@ -21,7 +21,7 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=lamb
 ALLOWED_HOSTS.append(BASE_URL.replace('http://', '').replace('https://', ''))
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
 
-CSRF_TRUSTED_ORIGINS = [BASE_URL]
+CSRF_TRUSTED_ORIGINS = [ 'http://' + BASE_URL]
 
 # Application definition
 INSTALLED_APPS = [
