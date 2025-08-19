@@ -8,6 +8,7 @@ staticfiles/
 
 # Environment
 .env
+.venv/
 venv/
 env/
 
