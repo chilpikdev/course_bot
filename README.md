@@ -1,7 +1,5 @@
 # Django + Telegram Bot + Celery: Запуск проекта
 
----
-
 ## Чтобы запустить проект **Django + Telegram Bot + Celery**, делай так:
 
 ### 1. Клонируй репозиторий:
