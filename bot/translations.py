@@ -8,7 +8,7 @@ MESSAGES = {
     },
     'language_chosen_button': {
         'qr': "Qaraqalpaqsha",
-        'uz': "O'zbekcha",
+        'uz': "Ўзбекча",
     },
     'language_selected': {
         'qr': 'Til saylandı',
