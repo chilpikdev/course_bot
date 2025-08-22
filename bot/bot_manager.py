@@ -22,6 +22,8 @@ class BotStates:
     COURSE_DETAILS = "course_details"
     PAYMENT_METHOD = "payment_method"
     WAITING_RECEIPT = "waiting_receipt"
+    WAITING_LANGUAGE = "waiting_language"
+
 
 class BotManager:
     """Простой менеджер для Telegram бота"""

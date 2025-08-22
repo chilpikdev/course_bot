@@ -7,24 +7,27 @@ from .models import Course, PaymentMethod
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
     list_display = [
-        'name', 'price', 'old_price', 'discount_info', 
-        'current_students_count', 'is_active', 'is_featured', 'created_at'
+        'name_qr', 'price', 'old_price', 'discount_info', 
+        'current_students_count', 'is_active', 'is_featured'
     ]
     list_filter = ['is_active', 'is_featured', 'created_at']
-    search_fields = ['name', 'description']
+    search_fields = ['name_qr', 'name_uz', 'description_qr', 'description_uz']
     readonly_fields = ['created_at', 'updated_at', 'current_students_count']
     
     fieldsets = (
-        ('Основная информация', {
-            'fields': ('name', 'description', 'short_description', 'preview_image')
+        ('Kurs haqqında maǵlıwmat (Qaraqalpaqsha)', {
+            'fields': ('name_qr', 'description_qr')
         }),
-        ('Цены', {
-            'fields': ('price', 'old_price')
+        ('Kurs haqida ma‘lumot (O‘zbekcha)', {
+            'fields': ('name_uz', 'description_uz')
         }),
-        ('Настройки доступа', {
-            'fields': ('group_link', 'max_students', 'is_active', 'is_featured', 'order')
+        ('Ulıwma maǵlıwmatlar', {
+            'fields': ('preview_image', 'price', 'old_price', 'group_link', 'max_students')
         }),
-        ('Статистика', {
+        ('Sazlawlar', {
+            'fields': ('is_active', 'is_featured', 'order')
+        }),
+        ('Statistika (avtomatikalıq)', {
             'fields': ('current_students_count', 'created_at', 'updated_at'),
             'classes': ('collapse',)
         })
@@ -58,18 +61,21 @@ class CourseAdmin(admin.ModelAdmin):
 
 @admin.register(PaymentMethod)
 class PaymentMethodAdmin(admin.ModelAdmin):
-    list_display = ['name', 'card_number', 'cardholder_name', 'bank_name', 'is_active', 'order']
+    list_display = ['name_qr', 'card_number', 'cardholder_name', 'is_active', 'order']
     list_filter = ['is_active', 'bank_name']
-    search_fields = ['name', 'card_number', 'cardholder_name']
+    search_fields = ['name_qr', 'name_uz', 'card_number', 'cardholder_name']
     
     fieldsets = (
-        ('Основная информация', {
-            'fields': ('name', 'bank_name', 'is_active', 'order')
+        ('Tiykarǵı maǵlıwmatlar', {
+            'fields': ('is_active', 'order', 'bank_name')
         }),
-        ('Реквизиты', {
+        ('Ataması (kóp tilli)', {
+            'fields': ('name_qr', 'name_uz')
+        }),
+        ('Rekvizitler', {
             'fields': ('card_number', 'cardholder_name')
         }),
-        ('Инструкции', {
-            'fields': ('instructions',)
+        ('Instrukciya (kóp tilli)', {
+            'fields': ('instructions_qr', 'instructions_uz',)
         })
     )

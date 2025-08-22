@@ -23,7 +23,7 @@ class PaymentAdmin(admin.ModelAdmin):
     list_filter = ['status', 'course', 'payment_method', 'created_at', 'approved_at']
     search_fields = [
         'user__username', 'user__first_name', 'user__last_name', 'user__chat_id',
-        'course__name', 'comment', 'user_comment'
+        'course__name_qr', 'course__name_uz', 'comment', 'user_comment'
     ]
     readonly_fields = ['created_at', 'updated_at', 'approved_at', 'file_info']
     

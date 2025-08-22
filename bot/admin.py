@@ -4,7 +4,8 @@ from django.contrib import admin
 from django.utils.html import format_html
 from django.urls import reverse
 from django.utils import timezone
-from .models import TelegramUser, UserState
+from .models import TelegramUser, UserState, InfoPage
+
 
 @admin.register(TelegramUser)
 class TelegramUserAdmin(admin.ModelAdmin):
@@ -50,3 +51,21 @@ class TelegramUserAdmin(admin.ModelAdmin):
         count = queryset.update(is_blocked=False)
         self.message_user(request, f"Разблокировано {count} пользователей.")
     unblock_users.short_description = "Разблокировать выбранных пользователей"
+
+
+@admin.register(InfoPage)
+class InfoPageAdmin(admin.ModelAdmin):
+    list_display = ("key", "updated_at")
+    search_fields = ("key", "content_qr", "content_uz")
+    
+    fieldsets = (
+        (None, {
+            'fields': ('key',)
+        }),
+        ('Mazmunı (Qaraqalpaqsha)', {
+            'fields': ('content_qr',)
+        }),
+        ('Mazmuni (O‘zbekcha)', {
+            'fields': ('content_uz',)
+        })
+    )
