@@ -33,8 +33,8 @@ class Course(models.Model):
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Jańalanǵan sáne")
 
     class Meta:
-        verbose_name = "Kurs"
-        verbose_name_plural = "Kurslar"
+        verbose_name = "Курс"
+        verbose_name_plural = "Курсы"
         ordering = ['order', 'name_qr'] # Standart sıralaw ushın birinshi tildi paydalanamız
 
     def __str__(self):
@@ -85,8 +85,8 @@ class PaymentMethod(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Jaratılǵan sáne")
 
     class Meta:
-        verbose_name = "Tólem usılı"
-        verbose_name_plural = "Tólem usılları"
+        verbose_name = "Способ оплаты"
+        verbose_name_plural = "Способы оплаты"
         ordering = ['order', 'name_qr']
 
     def __str__(self):

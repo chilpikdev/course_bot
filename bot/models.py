@@ -18,8 +18,8 @@ class TelegramUser(models.Model):
     language = models.CharField(max_length=2, choices=[('qr', 'Qaraqalpaq'), ('uz', 'Uzbek')], null=True, blank=True)
 
     class Meta:
-        verbose_name = "Telegram paydalanıwshısı"
-        verbose_name_plural = "Telegram paydalanıwshıları"
+        verbose_name = "Пользователь Telegram"
+        verbose_name_plural = "Пользователи Telegram"
         ordering = ['-created_at']
 
     def __str__(self):
@@ -68,8 +68,8 @@ class InfoPage(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = "Informaciya beti"
-        verbose_name_plural = "Informaciya betleri"
+        verbose_name = "Информационная страница"
+        verbose_name_plural = "Информационные страницы"
 
     def get_content(self, lang_code: str):
         return getattr(self, f'content_{lang_code}', self.content_qr)
