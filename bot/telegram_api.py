@@ -192,33 +192,6 @@ class TelegramAPI:
             logger.error(f"File download error: {e}")
             raise Exception(f"File download error: {e}")
 
-# class KeyboardBuilder:
-#     """Помощник для создания клавиатур"""
-    
-#     @staticmethod
-#     def reply_keyboard(buttons: List[List[str]], resize_keyboard: bool = True, 
-#                       one_time_keyboard: bool = False) -> Dict:
-#         """Создать обычную клавиатуру"""
-#         keyboard = []
-#         for row in buttons:
-#             keyboard_row = []
-#             for button in row:
-#                 if button == "📱 Nomerdi jiberiw":
-#                     # Специальная кнопка для запроса контакта
-#                     keyboard_row.append({
-#                         'text': button,
-#                         'request_contact': True
-#                     })
-#                 else:
-#                     keyboard_row.append({'text': button})
-#             keyboard.append(keyboard_row)
-        
-#         return {
-#             'keyboard': keyboard,
-#             'resize_keyboard': resize_keyboard,
-#             'one_time_keyboard': one_time_keyboard
-#         }
-
 class KeyboardBuilder:
     @staticmethod
     def reply_keyboard(buttons: List[List[Any]], resize_keyboard: bool = True, 
