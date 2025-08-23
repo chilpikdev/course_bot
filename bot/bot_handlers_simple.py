@@ -123,7 +123,8 @@ def handle_language_selection(bot: BotManager, update: dict):
         # Nomer soraw basqıshına ótiw
         if not user.phone:
             keyboard = KeyboardBuilder.reply_keyboard(
-                [[get_text('request_contact_button', lang_code)]], 
+                # [[get_text('request_contact_button', lang_code)]],
+                [[{'text': get_text('request_contact_button', lang_code), 'request_contact': True}]], 
                 one_time_keyboard=True
             )
             ctx.reply(get_text('welcome_after_lang', lang_code), reply_markup=keyboard)
