@@ -3,7 +3,7 @@
 MESSAGES = {
     # Til tańlaw
     'welcome_prompt_language': {
-        'qr': "Assalawma aleykum! Til tańlań: \nАссалому алайкум! Тилни танланг:",
+        'qr': "Assalawma aleykum! Til tańlań: \nAssalomu alaykum! Tilni tanlang:",
         'uz': "Assalomu alaykum! Tilni tanlang:",
     },
     'language_chosen_button': {
